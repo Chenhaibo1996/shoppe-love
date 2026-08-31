@@ -8,7 +8,7 @@ import {
     Html
 } from '@react-three/drei';
 import { EffectComposer, Bloom, Vignette } from '@react-three/postprocessing';
-import { useRef, useState, useMemo, Suspense, useEffect } from 'react';
+import { useRef, useState, useMemo, Suspense, } from 'react';
 import * as THREE from 'three';
 
 // --- 1. 数据配置 ---
@@ -247,6 +247,7 @@ const PlanetObject = ({ data, isFocused, onSelect }: any) => {
         normal: "textures/2k_earth_normal_map.jpg"
     });
     const regularTexture = useTexture(data.texture || "textures/mercury.jpg");
+    const moonTexture = useTexture("textures/moon.jpg");
 
     useMemo(() => {
         const texList = data.isEarth ? Object.values(textures) : [regularTexture];
@@ -279,7 +280,7 @@ const PlanetObject = ({ data, isFocused, onSelect }: any) => {
         <group position={[data.distance, 0, 0]}>
             <group rotation={[0, 0, THREE.MathUtils.degToRad(data.tilt)]}>
                 <group ref={(node) => { if (isFocused && node) onSelect(node); }}>
-                    <Trail width={0.4} length={4} color={isFocused ? "#fff" : data.color} opacity={isFocused ? 0.5 : 0.15}>
+                    <Trail width={0.4} length={4} color={isFocused ? "#fff" : data.color}>
                         <mesh ref={meshRef} onClick={(e) => { e.stopPropagation(); onSelect(meshRef.current); }}
                               onPointerOver={() => setHover(true)} onPointerOut={() => setHover(false)}>
                             <sphereGeometry args={[data.size, 64, 64]} />
@@ -298,6 +299,7 @@ const PlanetObject = ({ data, isFocused, onSelect }: any) => {
                                     emissiveIntensity={isFocused ? 0.3 : 0} />
                             )}
                         </mesh>
+                        <meshLineMaterial transparent opacity={isFocused ? 0.5 : 0.15} />
                     </Trail>
                     {/* 选中/悬停发光层 (非地球) */}
                     {(isFocused || hovered) && !data.isEarth && (
@@ -311,7 +313,7 @@ const PlanetObject = ({ data, isFocused, onSelect }: any) => {
                         <group ref={moonRef} position={[1.2, 0.15, 0]}>
                             <mesh>
                                 <sphereGeometry args={[0.08, 32, 32]} />
-                                <meshStandardMaterial map={useTexture("textures/moon.jpg")} roughness={0.9} />
+                                <meshStandardMaterial map={moonTexture} roughness={0.9} />
                             </mesh>
                         </group>
                     )}
