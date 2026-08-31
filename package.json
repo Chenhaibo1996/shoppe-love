@@ -1,9 +1,9 @@
 {
-  "name": "love",
+  "name": "bubu-ai-yier",
   "private": true,
   "version": "0.0.0",
   "type": "module",
-  "homepage": "https://github.com/Chenhaibo1996/shoppe-love",
+  "homepage": "https://github.com/Chenhaibo1996/bubu-ai-yier",
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
