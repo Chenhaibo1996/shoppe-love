@@ -1,4 +1,5 @@
-import { Canvas, useFrame, useThree } from '@react-three/fiber';
+import { Canvas, useFrame, useThree, extend } from '@react-three/fiber';
+import { MeshLineMaterial } from 'meshline';
 import {
     OrbitControls,
     Stars,
@@ -10,6 +11,8 @@ import {
 import { EffectComposer, Bloom, Vignette } from '@react-three/postprocessing';
 import { useRef, useState, useMemo, Suspense, } from 'react';
 import * as THREE from 'three';
+// 注册 meshline 材质到 R3F，供 <meshLineMaterial> 声明式使用
+extend({ MeshLineMaterial });
 
 // --- 1. 数据配置 ---
 const PLANET_DATA = [
@@ -299,7 +302,7 @@ const PlanetObject = ({ data, isFocused, onSelect }: any) => {
                                     emissiveIntensity={isFocused ? 0.3 : 0} />
                             )}
                         </mesh>
-                        <meshLineMaterial transparent opacity={isFocused ? 0.5 : 0.15} />
+                        <meshLineMaterial />
                     </Trail>
                     {/* 选中/悬停发光层 (非地球) */}
                     {(isFocused || hovered) && !data.isEarth && (
