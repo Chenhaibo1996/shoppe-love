@@ -1,9 +1,9 @@
 {
-  "name": "love",
+  "name": "bubu-ai-yier",
   "private": true,
   "version": "0.0.0",
   "type": "module",
-  "homepage": "https://github.com/Chenhaibo1996/shoppe-love",
+  "homepage": "https://github.com/Chenhaibo1996/bubu-ai-yier",
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
@@ -16,15 +16,18 @@
     "@react-three/drei": "^10.7.7",
     "@react-three/fiber": "^9.5.0",
     "@react-three/postprocessing": "^3.0.4",
+    "meshline": "^3.3.1",
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
-    "three": "^0.182.0"
+    "three": "^0.182.0",
+    "zustand": "^5.0.13"
   },
   "devDependencies": {
     "@eslint/js": "^9.39.1",
     "@types/node": "^24.10.1",
     "@types/react": "^19.2.5",
     "@types/react-dom": "^19.2.3",
+    "@types/three": "0.182.0",
     "@vitejs/plugin-react": "^5.1.1",
     "babel-plugin-react-compiler": "^1.0.0",
     "eslint": "^9.39.1",
@@ -32,6 +35,7 @@
     "eslint-plugin-react-refresh": "^0.4.24",
     "gh-pages": "^6.3.0",
     "globals": "^16.5.0",
+    "playwright": "^1.60.0",
     "typescript": "~5.9.3",
     "typescript-eslint": "^8.46.4",
     "vite": "^7.2.4"

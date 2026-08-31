@@ -1,75 +1,29 @@
-# React + TypeScript + Vite
+# 布布爱一二
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+一个 3D 太阳系互动可视化，送给布布和一二。基于 **React 19** + **Three.js**（`@react-three/fiber`）+ **Vite 7** 构建。
 
-Currently, two official plugins are available:
+## 功能
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- 太阳：核心球体 + 双层日冕 shader（内层紧密、外层弥散，随时间脉冲）
+- 6 颗行星（水星 → 土星）：公转轨道、自转、轴倾角、轨迹拖尾
+- 地球：自定义 shader，昼夜贴图混合 + 云层 + 法线凹凸 + Fresnel 蓝色大气辉光；环绕的月球
+- 土星环：Canvas 生成的渐变环纹理
+- 后期处理：Bloom + Vignette（`multisampling={0}`，规避黑屏问题）
+- 银河天空盒背景 + 星空粒子
+- 点击行星：HUD 信息面板 + 相机平滑跟随
 
-## React Compiler
+## 命令
 
-The React Compiler is enabled on this template. See [this documentation](https://react.dev/learn/react-compiler) for more information.
-
-Note: This will impact Vite dev & build performances.
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
-
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```bash
+npm install        # 安装依赖
+npm run dev        # 开发服务器（HMR）
+npm run build      # 类型检查 + 生产构建
+npm run preview    # 本地预览生产构建
+npm run deploy     # 构建并部署到 GitHub Pages
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## 技术要点
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+- `vite.config.ts` 设 `base: './'`，资源走相对路径，可部署到任意子路径
+- `babel-plugin-react-compiler` 启用自动 memoization
+- 已知问题：Bloom + Vignette 组合在默认 `EffectComposer` 下会黑屏，已通过 `multisampling={0}` + `eskil={false}` 修复
